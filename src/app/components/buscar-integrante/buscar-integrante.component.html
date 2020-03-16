@@ -4,10 +4,14 @@
 			<input matInput placeholder="Nombre del integrante" formControlName="nombre"        [matAutocomplete]="auto">
     </mat-form-field>
 			<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="50"></mat-spinner></mat-option>
-				<mat-option *ngFor="let usuario of usariosList | async" [value]="usuario">
-					{{usuario.nombre}}
+				<mat-option *ngIf="isLoading" class="is-loading">
+					<mat-spinner diameter="50"></mat-spinner>
 				</mat-option>
+				<ng-container *ngIf="!isLoading">
+					<mat-option *ngFor="let usuario of usariosList | async" [value]="usuario">
+						{{usuario.nombre}}
+					</mat-option>
+				</ng-container>
 			</mat-autocomplete>
 
 	</form>

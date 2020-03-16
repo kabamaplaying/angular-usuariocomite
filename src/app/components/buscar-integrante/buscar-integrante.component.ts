@@ -13,13 +13,13 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class BuscarIntegranteComponent implements OnInit {
 
-  usariosList: Observable<Usuario[]>;
+  usariosList: Observable<any[]>;
   formularioIntegrante: FormGroup = this.fb.group({
     nombre: ['', Validators.required]
   });
   isLoading = false;
   constructor(private uService: IntegranteService, private fb: FormBuilder) {
-    this.cargarUsuarios();
+    this.usariosList = this.cargarUsuarios();
   }
   ngOnInit() {
     this.formularioIntegrante.get('nombre')
@@ -27,35 +27,33 @@ export class BuscarIntegranteComponent implements OnInit {
       .pipe(
         debounceTime(300),
         tap(() => this.isLoading = true),
-        switchMap(value => this._filter(value).pipe(
-             finalize(() => this.isLoading = false))
+        switchMap((value: string) =>
+          this.uService.allIntegrantes().
+            pipe(
+              switchMap((arr: Usuario[]) => arr.filter((usr: Usuario) =>
+                this._filter(value, usr)
+              )),
+              finalize(() => this.isLoading = false))
         )
-      ).subscribe((users: Usuario[]) => { 
-   
-        this.usariosList =  from([...users]); 
-         
-      
+
+
+      ).subscribe((users: Observable<Usuario[]>) => {
+        console.log(users, 'VALUE')
+        this.usariosList = of([users]);
       });
   }
 
   displayFn(user: Usuario): string {
     return user && user.nombre ? user.nombre : '';
   }
-  _filter(value: string | Usuario): Observable<Usuario[]> {
-    console.log(value)
-    const filterValue = typeof value === 'string' ? value.toLocaleLowerCase() : value.nombre.toLocaleLowerCase();
-     this.cargarUsuarios();
-    return this.usariosList.pipe(
-      switchMap(lista => 
-        lista.filter((e, i) => {
-        return e.nombre.toLocaleLowerCase().indexOf(filterValue) === 0
-      })
-      )
-    );
+  _filter(value: any, usr: Usuario): Observable<Usuario | null> {
+
+    const filterValue = value instanceof Object ? value.nombre.toLocaleLowerCase() : value.toLocaleLowerCase();
+    return usr.nombre.toLocaleLowerCase().indexOf(filterValue) === 0 ? of(usr) : null;
   }
 
   cargarUsuarios() {
-    this.usariosList = this.uService.allIntegrantes();
+    return this.uService.allIntegrantes();
   }
 
 }
