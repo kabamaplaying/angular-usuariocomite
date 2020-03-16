@@ -6,7 +6,7 @@ import { MaterialSharedModule } from './components/shared/material-shared.module
 import { AppComponent } from './app.component';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, MaterialSharedModule],
+  imports: [BrowserModule, FormsModule, BrowserAnimationsModule, MaterialSharedModule],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
