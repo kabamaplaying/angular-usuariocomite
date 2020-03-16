@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import {
-  MatAutocompleteModule,
-  MatInputModule
-} from '@angular/material';
+  MatInputModule,
+
+} from '@angular/material/input';
+import {
+  MatAutocompleteModule
+} from '@angular/material/autocomplete';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 @NgModule({

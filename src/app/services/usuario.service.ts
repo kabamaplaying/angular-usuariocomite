@@ -32,13 +32,13 @@ export class IntegranteService {
   }
 
   allIntegrantes(): Observable<Usuario[]> {
-    this.bhSubject.next([this.integrantList]);
+    this.bhSubject.next([...this.integrantList]);
     return this.integrantList$;
   }
 
   findUser(letter: string) {
     this.integrantList$.pipe(
-     thro
+     
     );
   }
 

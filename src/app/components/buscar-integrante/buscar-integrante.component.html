@@ -1,0 +1,12 @@
+<div class="container">
+  <form [formGroup]="stateForm">
+    <mat-form-field>
+      <input type="text" matInput placeholder="Nombre del integrante" formControlName="nombre"[matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let group of usariosList | async" [value]="group">
+              {{group.nombre}}
+          </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+</div>
