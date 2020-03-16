@@ -8,5 +8,4 @@ import {
   imports: [MatAutocompleteModule, MatInputModule],
   exports: [MatAutocompleteModule, MatInputModule]
 })
-
 export class MaterialSharedModule { }
